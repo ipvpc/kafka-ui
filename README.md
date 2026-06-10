@@ -40,6 +40,30 @@ Your server at `kafka.alpha5.finance:9092` is a valid one-broker cluster. The UI
 
 Kafka must advertise an address the UI container can reach. If the UI shows connection errors, check `advertised.listeners` on your broker.
 
+## Troubleshooting: `Connection to node 1 (localhost/127.0.0.1:9092)`
+
+This means bootstrap to `kafka.alpha5.finance:9092` worked, but the broker returned **localhost** in its metadata. Remote clients and Docker cannot reach the broker’s loopback address.
+
+**Fix on the Kafka server** (`kafka.alpha5.finance` / `192.168.0.9`) — set `advertised.listeners` to the hostname clients use, then restart Kafka.
+
+**Docker / Confluent (KRaft):**
+
+```env
+KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka.alpha5.finance:9092
+KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+```
+
+**`server.properties` (bare install):**
+
+```properties
+listeners=PLAINTEXT://0.0.0.0:9092
+advertised.listeners=PLAINTEXT://kafka.alpha5.finance:9092
+```
+
+After restart, reload the UI — you should see **1 broker** online.
+
 ## What you can do in the UI
 
 - Topics — create, browse, produce/consume messages
