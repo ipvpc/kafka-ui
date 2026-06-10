@@ -1,6 +1,12 @@
 # Kafka UI
 
-Web-based administration for a single Apache Kafka broker, powered by [Kafbat UI](https://github.com/kafbat/kafka-ui).
+Web-based administration for your Kafka broker at **kafka.alpha5.finance:9092**, powered by [Kafbat UI](https://github.com/kafbat/kafka-ui).
+
+## Single node is fine
+
+Kafka calls any set of brokers a **cluster**, even when there is only **one** broker. This UI is not limited to multi-node setups.
+
+Your server at `kafka.alpha5.finance:9092` is a valid one-broker cluster. The UI will connect to that single bootstrap address and show **1 broker**, your topics, consumer groups, and messages — the same as a larger deployment, just with one node.
 
 ## Quick start
 
@@ -10,7 +16,11 @@ Web-based administration for a single Apache Kafka broker, powered by [Kafbat UI
    cp .env.example .env
    ```
 
-2. Edit `.env` — set `KAFKA_BOOTSTRAP_SERVERS` to your Kafka host and port (default `host.docker.internal:9092` reaches Kafka on this PC).
+2. Broker address is already set in `.env`:
+
+   ```env
+   KAFKA_BOOTSTRAP_SERVERS=kafka.alpha5.finance:9092
+   ```
 
 3. Start:
 

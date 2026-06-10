@@ -1,5 +1,5 @@
-# Single-broker cluster. Override host:port via .env (KAFKA_BOOTSTRAP_SERVERS).
-# UI changes are persisted here when DYNAMIC_CONFIG_ENABLED=true.
+# One broker at kafka.alpha5.finance:9092
+# ("clusters" in Kafka config = connection entries; one entry for a single-node server)
 
 kafka:
   clusters:
