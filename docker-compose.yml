@@ -1,0 +1,15 @@
+services:
+  kafbat-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: kafbat-ui
+    ports:
+      - "${KAFKA_UI_PORT:-8080}:8080"
+    environment:
+      DYNAMIC_CONFIG_ENABLED: "true"
+      KAFKA_CLUSTERS_0_NAME: ${KAFKA_CLUSTER_NAME:-kafka}
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka.alpha5.finance:9092}
+    volumes:
+      - ./config/dynamic_config.yaml:/etc/kafkaui/dynamic_config.yaml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
